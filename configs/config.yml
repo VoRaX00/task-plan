@@ -2,6 +2,6 @@ db:
   host: "localhost"
   port: "5431"
   name: "task-plan_db"
-  user: "postgres"
+  username: "postgres"
   sslmode: "disable"
 
