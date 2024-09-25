@@ -2,10 +2,10 @@ package handler
 
 import "github.com/gin-gonic/gin"
 
-func (h *Handler) GetTasks(c *gin.Context) {
+func (h *Handler) getTask(c *gin.Context) {
 
 }
 
-func (h *Handler) CreateTask(c *gin.Context) {
+func (h *Handler) createTask(c *gin.Context) {
 
 }
