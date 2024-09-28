@@ -1,7 +1,9 @@
+server:
+  port: "8004"
 db:
   host: "localhost"
-  port: "5431"
-  name: "task-plan_db"
+  port: "5434"
+  name: "taskplan_db"
   username: "postgres"
   sslmode: "disable"
 

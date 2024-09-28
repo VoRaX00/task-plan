@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
@@ -13,22 +14,16 @@ import (
 	"task-plan/internal/infrastructure"
 )
 
-func initConfig() error {
-	viper.AddConfigPath("configs")
-	viper.SetConfigName("config")
-	return viper.ReadInConfig()
-}
+// @title Task-plan API
+// @version 1.0
+// @description API Server for Task-plan application
 
-func initDbConfig() infrastructure.Config {
-	return infrastructure.Config{
-		Host:     viper.GetString("db.host"),
-		Port:     viper.GetString("db.port"),
-		Username: viper.GetString("db.username"),
-		Password: os.Getenv("DB_PASSWORD"),
-		DBName:   viper.GetString("db.dbname"),
-		SSLMode:  viper.GetString("db.sslmode"),
-	}
-}
+// @host localhost:8004
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 
 func main() {
 	logrus.SetFormatter(&logrus.TextFormatter{})
@@ -58,7 +53,7 @@ func main() {
 	server := new(Server)
 
 	go func() {
-		if err = server.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+		if err = server.Run(viper.GetString("server.port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatalf("Error starting server: %v", err)
 		}
 	}()
@@ -79,4 +74,21 @@ func main() {
 	}
 
 	logrus.Info("Server stopped")
+}
+
+func initConfig() error {
+	viper.AddConfigPath("configs")
+	viper.SetConfigName("config")
+	return viper.ReadInConfig()
+}
+
+func initDbConfig() infrastructure.Config {
+	return infrastructure.Config{
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		Password: os.Getenv("DB_PASSWORD"),
+		DBName:   viper.GetString("db.name"),
+		SSLMode:  viper.GetString("db.sslmode"),
+	}
 }
