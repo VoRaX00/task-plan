@@ -2,6 +2,9 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"net/http"
+	"task-plan/internal/application"
 )
 
 // @Summary SignUp
@@ -14,6 +17,12 @@ import (
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
+	var input application.UserRegister
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
 }
 
