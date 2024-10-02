@@ -1,7 +1,7 @@
 package mapper
 
 import (
-	"task-plan/internal/application"
+	"task-plan/internal/application/requestModels"
 	"task-plan/internal/domain"
 )
 
@@ -12,7 +12,7 @@ func NewUserMapper() *UserMapper {
 	return &UserMapper{}
 }
 
-func (m *UserMapper) UserAddToUser(user application.UserToAdd) domain.User {
+func (m *UserMapper) UserAddToUser(user requestModels.UserToAdd) domain.User {
 	res := domain.User{
 		Name:         user.Name,
 		Email:        user.Email,

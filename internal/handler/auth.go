@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"task-plan/internal/application"
+	"task-plan/internal/application/requestModels"
 )
 
 // @Summary SignUp
@@ -17,13 +17,33 @@ import (
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
-	var input application.UserRegister
+	var input requestModels.UserToAdd
 	if err := c.ShouldBindJSON(&input); err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
+	id, err := h.services.IAuthService.Create(input)
+	if err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	emailToken, err := h.services.GenerateEmailConfirmationToken(id)
+	if err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	err = h.services.IMessageEmailService.SendConfirmEmail(input.Email, emailToken)
+	if err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 }
 
 // @Summary SignIn

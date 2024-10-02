@@ -1,6 +1,7 @@
 package application
 
 import (
+	"task-plan/internal/application/requestModels"
 	"task-plan/internal/domain"
 	"task-plan/internal/infrastructure"
 	"task-plan/pkg/mapper"
@@ -17,12 +18,16 @@ func NewAuthService(repo infrastructure.IAuthRepository) *AuthService {
 	}
 }
 
-func (s *AuthService) Create(userToAdd UserToAdd) (string, error) {
+func (s *AuthService) Create(userToAdd requestModels.UserToAdd) (string, error) {
 	user := s.mapper.UserAddToUser(userToAdd)
 	return s.repo.Create(user)
 }
 
 func (s *AuthService) GenerateToken(user domain.User) (string, error) {
+	return "", nil
+}
+
+func (s *AuthService) GenerateEmailConfirmationToken(id string) (string, error) {
 	return "", nil
 }
 

@@ -1,10 +1,10 @@
 package mapper
 
 import (
-	"task-plan/internal/application"
+	"task-plan/internal/application/requestModels"
 	"task-plan/internal/domain"
 )
 
 type IUserMapper interface {
-	UserAddToUser(user application.UserToAdd) domain.User
+	UserAddToUser(user requestModels.UserToAdd) domain.User
 }
