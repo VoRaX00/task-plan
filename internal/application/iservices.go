@@ -1,14 +1,20 @@
 package application
 
 import (
-	"task-plan/internal/application/requestModels"
+	"github.com/google/uuid"
 	"task-plan/internal/domain"
+	"task-plan/pkg/tokenManager"
 )
 
+type IBaseServices[T any, U any] interface {
+	Create(T) (U, error)
+	GetById(U) (T, error)
+}
+
 type IAuthService interface {
-	Create(userToAdd requestModels.UserToAdd) (string, error)
+	IBaseServices[domain.User, uuid.UUID]
 	GenerateToken(user domain.User) (string, error)
-	GenerateEmailConfirmationToken(id string) (string, error)
+	GenerateEmailConfirmationToken(id string, manager *tokenManager.Manager) (string, error)
 	ParseToken(token string) (*domain.User, error)
 }
 

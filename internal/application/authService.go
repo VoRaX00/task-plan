@@ -3,10 +3,10 @@ package application
 import (
 	"crypto/sha256"
 	"fmt"
+	"github.com/google/uuid"
 	"os"
 	"task-plan/internal/application/requestModels"
 	"task-plan/internal/domain"
-	"task-plan/internal/infrastructure"
 	"task-plan/pkg/mapper"
 	"task-plan/pkg/tokenManager"
 	"time"
@@ -14,18 +14,27 @@ import (
 
 type AuthService struct {
 	mapper mapper.Mapper
-	repo   infrastructure.IAuthRepository
+	repo   IAuthRepository
 }
 
-func NewAuthService(repo infrastructure.IAuthRepository) *AuthService {
+func NewAuthService(repo IAuthRepository) *AuthService {
 	return &AuthService{
 		repo: repo,
 	}
 }
 
-func (s *AuthService) Create(userToAdd requestModels.UserToAdd) (string, error) {
+func (s *AuthService) Create(userToAdd requestModels.UserToAdd) (uuid.UUID, error) {
 	user := s.mapper.UserAddToUser(userToAdd)
 	return s.repo.Create(user)
+}
+
+func (s *AuthService) GetById(id uuid.UUID) (requestModels.UserToAdd, error) {
+	user, err := s.repo.GetById(id)
+	if err != nil {
+		return requestModels.UserToAdd{}, err
+	}
+	req := s.mapper.UserToUserAdd(user)
+	return req, nil
 }
 
 func (s *AuthService) GenerateToken(user domain.User) (string, error) {

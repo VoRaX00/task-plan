@@ -7,4 +7,5 @@ import (
 
 type IUserMapper interface {
 	UserAddToUser(user requestModels.UserToAdd) domain.User
+	UserToUserAdd(user domain.User) requestModels.UserToAdd
 }

@@ -20,3 +20,11 @@ func (m *UserMapper) UserAddToUser(user requestModels.UserToAdd) domain.User {
 	}
 	return res
 }
+
+func (m *UserMapper) UserToUserAdd(user domain.User) requestModels.UserToAdd {
+	return requestModels.UserToAdd{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.PasswordHash,
+	}
+}

@@ -1,7 +1,9 @@
 package infrastructure
 
+import "task-plan/internal/application"
+
 type Repository struct {
-	IAuthRepository
+	application.IAuthRepository
 }
 
 func NewRepository() *Repository {

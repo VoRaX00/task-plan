@@ -14,15 +14,15 @@ func NewAuthRepository() *AuthRepository {
 	return &AuthRepository{}
 }
 
-func (r *AuthRepository) Create(user domain.User) (string, error) {
+func (r *AuthRepository) Create(user domain.User) (uuid.UUID, error) {
 	var id uuid.UUID
 	query := "INSERT INTO users (id, email, name, password_hash) VALUES ($1, $2, $3, $4) RETURNING id"
 	row := r.db.QueryRow(query, user.Id, user.Email, user.Name, user.PasswordHash)
 	err := row.Scan(&id)
 	if err != nil {
-		return "", err
+		return uuid.UUID{}, err
 	}
-	return id.String(), nil
+	return id, nil
 }
 
 func (r *AuthRepository) GetByEmail(email string) (domain.User, error) {

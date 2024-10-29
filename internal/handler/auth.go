@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"task-plan/internal/application/requestModels"
+	"task-plan/pkg/tokenManager"
 )
 
 // @Summary SignUp
@@ -31,6 +32,7 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
+	manager := tokenManager.NewManager()
 	emailToken, err := h.services.GenerateEmailConfirmationToken(id)
 	if err != nil {
 		logrus.Error(err)
