@@ -11,16 +11,12 @@ CREATE TABLE tasks (
     id SERIAL NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    level_id INT NOT NULL
+    level_id SERIAL REFERENCES level_progress(id) NOT NULL,
+    group_id SERIAL REFERENCES groups(id) NOT NULL
 );
 
 CREATE TABLE users_groups (
     user_id UUID REFERENCES users (id) ON DELETE CASCADE NOT NULL,
-    group_id SERIAL REFERENCES groups (id) ON DELETE CASCADE NOT NULL
-);
-
-CREATE TABLE tasks_groups (
-    task_id SERIAL REFERENCES tasks (id) ON DELETE CASCADE NOT NULL,
     group_id SERIAL REFERENCES groups (id) ON DELETE CASCADE NOT NULL
 );
 
@@ -53,7 +49,6 @@ CREATE TABLE refresh_tokens (
 -- +goose StatementBegin
 DROP TABLE refresh_tokens;
 DROP TABLE users_groups;
-DROP TABLE tasks_groups;
 DROP TABLE level_task;
 DROP TABLE users;
 DROP TABLE groups;
