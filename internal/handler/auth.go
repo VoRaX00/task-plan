@@ -32,8 +32,8 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
-	manager := tokenManager.NewManager()
-	emailToken, err := h.services.GenerateEmailConfirmationToken(id)
+	manager := tokenManager.NewManager(h.signingKey)
+	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String(), manager)
 	if err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())

@@ -45,9 +45,10 @@ func main() {
 		_ = db.Close()
 	}()
 
+	signingKey := os.Getenv("SIGNING_KEY")
 	repos := infrastructure.NewRepository()
 	services := application.NewService(repos)
-	handlers := handler.NewHandler(services)
+	handlers := handler.NewHandler(services, signingKey)
 
 	server := new(Server)
 

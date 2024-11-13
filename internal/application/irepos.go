@@ -6,13 +6,11 @@ import (
 )
 
 type IBaseRepository[T any, U any] interface {
-	Create(model T) (U, error)
-	GetById(id U) (T, error)
+	Create(T) (U, error)
+	GetById(U) (T, error)
 }
 
 type IAuthRepository interface {
-	//Create(user domain.User) (string, error)
 	IBaseRepository[domain.User, uuid.UUID]
 	GetByEmail(email string) (domain.User, error)
-	//GetById(userId uuid.UUID) (domain.User, error)
 }

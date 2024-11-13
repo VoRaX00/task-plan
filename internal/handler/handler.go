@@ -9,12 +9,14 @@ import (
 )
 
 type Handler struct {
-	services *application.Service
+	services   *application.Service
+	signingKey string
 }
 
-func NewHandler(services *application.Service) *Handler {
+func NewHandler(services *application.Service, signingKey string) *Handler {
 	return &Handler{
-		services: services,
+		services:   services,
+		signingKey: signingKey,
 	}
 }
 
