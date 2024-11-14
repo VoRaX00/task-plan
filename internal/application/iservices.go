@@ -23,3 +23,7 @@ type IMessageEmailService interface {
 	Send(emailMessage string) error
 	SendConfirmEmail(email, callbackUrl string) error
 }
+
+type ITaskService interface {
+	Create()
+}
