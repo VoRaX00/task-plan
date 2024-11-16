@@ -5,7 +5,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"task-plan/internal/application/requestModels"
-	"task-plan/pkg/tokenManager"
 )
 
 // @Summary SignUp
@@ -32,8 +31,7 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
-	manager := tokenManager.NewManager(h.signingKey)
-	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String(), manager)
+	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String(), h.manager)
 	if err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -46,6 +44,10 @@ func (h *Handler) signUp(c *gin.Context) {
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"id": id,
+	})
 }
 
 // @Summary SignIn
@@ -58,5 +60,29 @@ func (h *Handler) signUp(c *gin.Context) {
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
+	var input requestModels.UserLogin
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
+	err := h.services.CheckUser(input)
+	if err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	tokens, err := h.services.GenerateTokens(input)
+	if err != nil {
+		logrus.Error(err)
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"access":  tokens["access"],
+		"refresh": tokens["refresh"],
+	})
 }

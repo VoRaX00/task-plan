@@ -2,6 +2,7 @@ package application
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 	"os"
@@ -37,9 +38,20 @@ func (s *AuthService) GetById(id uuid.UUID) (requestModels.UserToAdd, error) {
 	return req, nil
 }
 
-func (s *AuthService) GenerateToken(user domain.User) (string, error) {
+func (s *AuthService) CheckUser(user requestModels.UserLogin) error {
+	getUser, err := s.repo.GetByEmail(user.Email)
+	if err != nil {
+		return err
+	}
+	passwordHash := s.generatePasswordHash(user.Password)
+	if passwordHash == getUser.PasswordHash {
+		return nil
+	}
+	return errors.New("wrong password")
+}
 
-	return "", nil
+func (s *AuthService) GenerateTokens(user requestModels.UserLogin) (map[string]string, error) {
+	return nil, nil
 }
 
 const (

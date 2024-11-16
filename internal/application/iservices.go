@@ -14,8 +14,9 @@ type IBaseServices[T any, U any] interface {
 
 type IAuthService interface {
 	IBaseServices[requestModels.UserToAdd, uuid.UUID]
-	GenerateToken(user domain.User) (string, error)
+	GenerateTokens(user requestModels.UserLogin) (map[string]string, error)
 	GenerateEmailConfirmationToken(id string, manager *tokenManager.Manager) (string, error)
+	CheckUser(user requestModels.UserLogin) error
 	ParseToken(token string) (*domain.User, error)
 }
 

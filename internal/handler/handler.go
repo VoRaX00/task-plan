@@ -6,10 +6,12 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "task-plan/docs"
 	"task-plan/internal/application"
+	"task-plan/pkg/tokenManager"
 )
 
 type Handler struct {
 	services   *application.Service
+	manager    *tokenManager.Manager
 	signingKey string
 }
 
@@ -17,6 +19,7 @@ func NewHandler(services *application.Service, signingKey string) *Handler {
 	return &Handler{
 		services:   services,
 		signingKey: signingKey,
+		manager:    tokenManager.NewManager(signingKey),
 	}
 }
 
