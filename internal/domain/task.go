@@ -1,8 +1,7 @@
 package domain
 
 type Task struct {
-	Id          int64  `json:"id" db:"id"`
-	Name        string `json:"name" db:"name"`
-	Description string `json:"description" db:"description"`
-	Level       string `json:"level" db:"level"`
+	Name        string `json:"name" gorm:"type:varchar(100)"`
+	Description string `json:"description" gorm:"type:text"`
+	Level       string `json:"level" gorm:"type:varchar(50)"`
 }

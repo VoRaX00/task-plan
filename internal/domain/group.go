@@ -1,9 +1,8 @@
 package domain
 
 type Group struct {
-	Id            int64    `json:"id" db:"id"`
-	Name          string   `json:"name" db:"name"`
-	Users         []int64  `json:"users" db:"users"`
-	Tasks         []Task   `json:"tasks" db:"tasks"`
-	LevelProgress []string `json:"levelProgress" db:"level_progress"`
+	Name          string   `json:"name"`
+	Users         []int64  `json:"users"`
+	Tasks         []Task   `json:"tasks" gorm:"foreignkey:GroupId"`
+	LevelProgress []string `json:"levelProgress"`
 }
