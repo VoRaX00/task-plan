@@ -1,11 +1,15 @@
 package domain
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
 
 type User struct {
-	Id           uuid.UUID `json:"id" db:"id"`
-	Name         string    `json:"name" db:"name"`
-	Email        string    `json:"email" db:"email"`
-	PasswordHash string    `json:"password" db:"password_hash"`
-	Groups       []Group   `json:"groups" db:"groups"`
+	gorm.Model
+	ID           uuid.UUID `json:"id" gorm:"primaryKey;type:uuid"`
+	Name         string    `json:"name" gorm:"size:255"`
+	Email        string    `json:"email" gorm:"unique"`
+	PasswordHash string    `json:"password" gorm:"type:text"`
+	Groups       []Group   `json:"groups" gorm:"foreignkey:UserID"`
 }

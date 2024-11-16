@@ -1,13 +1,16 @@
 package infrastructure
 
-import "task-plan/internal/application"
+import (
+	"gorm.io/gorm"
+	"task-plan/internal/application"
+)
 
 type Repository struct {
 	application.IAuthRepository
 }
 
-func NewRepository() *Repository {
+func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
-		IAuthRepository: NewAuthRepository(),
+		IAuthRepository: NewAuthRepository(db),
 	}
 }

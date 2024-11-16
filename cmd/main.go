@@ -41,12 +41,12 @@ func main() {
 		logrus.Fatalf("Error initializing db: %v", err)
 	}
 
-	defer func() {
-		_ = db.Close()
-	}()
+	//defer func() {
+	//	_ = db.
+	//}()
 
 	signingKey := os.Getenv("SIGNING_KEY")
-	repos := infrastructure.NewRepository()
+	repos := infrastructure.NewRepository(db)
 	services := application.NewService(repos)
 	handlers := handler.NewHandler(services, signingKey)
 
@@ -69,9 +69,9 @@ func main() {
 		logrus.Fatalf("Error shutting down server: %v", err)
 	}
 
-	if err = db.Close(); err != nil {
-		logrus.Fatalf("Error closing db: %v", err)
-	}
+	//if err = db.Close(); err != nil {
+	//	logrus.Fatalf("Error closing db: %v", err)
+	//}
 
 	logrus.Info("Server stopped")
 }

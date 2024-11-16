@@ -2,43 +2,44 @@ package infrastructure
 
 import (
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 	"task-plan/internal/domain"
 )
 
 type AuthRepository struct {
-	db *sqlx.DB
+	db *gorm.DB
 }
 
-func NewAuthRepository() *AuthRepository {
-	return &AuthRepository{}
+func NewAuthRepository(db *gorm.DB) *AuthRepository {
+	return &AuthRepository{
+		db: db,
+	}
 }
 
 func (r *AuthRepository) Create(user domain.User) (uuid.UUID, error) {
-	var id uuid.UUID
-	query := "INSERT INTO users (id, email, name, password_hash) VALUES ($1, $2, $3, $4) RETURNING id"
-	row := r.db.QueryRow(query, user.Id, user.Email, user.Name, user.PasswordHash)
-	err := row.Scan(&id)
-	if err != nil {
-		return uuid.UUID{}, err
+	user.ID = uuid.New()
+	result := r.db.Create(&user)
+	if result.Error != nil {
+		return uuid.Nil, result.Error
 	}
-	return id, nil
+	return user.ID, nil
 }
 
 func (r *AuthRepository) GetByEmail(email string) (domain.User, error) {
 	var user domain.User
-	query := "SELECT id, email, name FROM users WHERE email = $1"
-	row := r.db.QueryRow(query, email)
+	tx := r.db.First(&user, "email = ?", email)
+	if tx.Error != nil {
+		return domain.User{}, tx.Error
+	}
 
-	err := row.Scan(&user.Id, &user.Email, &user.Name)
-	return domain.User{}, err
+	return user, nil
 }
 
 func (r *AuthRepository) GetById(userId uuid.UUID) (domain.User, error) {
 	var user domain.User
-	query := "SELECT id, email, name FROM users WHERE id = $1"
-	row := r.db.QueryRow(query, userId)
-
-	err := row.Scan(&user.Id, &user.Email, &user.Name)
-	return domain.User{}, err
+	tx := r.db.First(&user, "id = ?", userId)
+	if tx.Error != nil {
+		return domain.User{}, tx.Error
+	}
+	return user, nil
 }
