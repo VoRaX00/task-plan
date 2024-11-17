@@ -6,6 +6,6 @@ import (
 )
 
 type IUserMapper interface {
-	UserAddToUser(user requestModels.UserToAdd) domain.User
-	UserToUserAdd(user domain.User) requestModels.UserToAdd
+	UserRegisterToUser(user requestModels.UserRegister) domain.User
+	UserToUserGet(user domain.User) requestModels.UserToGet
 }

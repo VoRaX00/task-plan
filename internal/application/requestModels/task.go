@@ -1,17 +1,25 @@
 package requestModels
 
-type TaskToAdd struct {
-	Name        string `json:"name" db:"name"`
-	Description string `json:"description" db:"description"`
-	Level       string `json:"level" db:"level"`
-}
+import "task-plan/internal/domain"
 
-type TaskToUpdate struct {
-	Name        string `json:"name" db:"name"`
-	Description string `json:"description" db:"description"`
-	Level       string `json:"level" db:"level"`
-}
+type (
+	TaskToAdd struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Level       string `json:"level"`
+	}
 
-type TaskToDelete struct {
-	Id int64 `json:"id" db:"id"`
-}
+	TaskToUpdate struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Level       string `json:"level"`
+	}
+
+	TaskToDelete struct {
+		Id int64 `json:"id"`
+	}
+
+	TaskToGet struct {
+		domain.Task
+	}
+)

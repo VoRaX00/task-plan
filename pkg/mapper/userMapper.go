@@ -12,7 +12,7 @@ func NewUserMapper() *UserMapper {
 	return &UserMapper{}
 }
 
-func (m *UserMapper) UserAddToUser(user requestModels.UserToAdd) domain.User {
+func (m *UserMapper) UserRegisterToUser(user requestModels.UserRegister) domain.User {
 	res := domain.User{
 		Name:         user.Name,
 		Email:        user.Email,
@@ -21,10 +21,9 @@ func (m *UserMapper) UserAddToUser(user requestModels.UserToAdd) domain.User {
 	return res
 }
 
-func (m *UserMapper) UserToUserAdd(user domain.User) requestModels.UserToAdd {
-	return requestModels.UserToAdd{
-		Name:     user.Name,
-		Email:    user.Email,
-		Password: user.PasswordHash,
+func (m *UserMapper) UserToUserGet(user domain.User) requestModels.UserToGet {
+	return requestModels.UserToGet{
+		Name:  user.Name,
+		Email: user.Email,
 	}
 }

@@ -1,12 +1,19 @@
 package requestModels
 
-type UserLogin struct {
-	Email    string `json:"email" db:"email"`
-	Password string `json:"password" db:"password_hash"`
-}
+type (
+	UserLogin struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
 
-type UserToAdd struct {
-	Name     string `json:"name" db:"name"`
-	Email    string `json:"email" db:"email"`
-	Password string `json:"password" db:"password"`
-}
+	UserRegister struct {
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	UserToGet struct {
+		Name  string `json:"name"`
+		Email string `json:"email"`
+	}
+)

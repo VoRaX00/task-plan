@@ -5,19 +5,25 @@ import (
 	"task-plan/internal/domain"
 )
 
-type GroupToAdd struct {
-	Name          string    `json:"name" db:"name"`
-	AdminUserId   uuid.UUID `json:"adminUserId" db:"user_id"`
-	LevelProgress []string  `json:"levelProgress" db:"level_progress"`
-}
+type (
+	GroupToAdd struct {
+		Name          string    `json:"name"`
+		AdminUserId   uuid.UUID `json:"adminUserId"`
+		LevelProgress []string  `json:"levelProgress"`
+	}
 
-type GroupToUpdate struct {
-	Name          string        `json:"name" db:"name"`
-	LevelProgress []string      `json:"levelProgress" db:"level_progress"`
-	Users         []domain.User `json:"users" db:"users"`
-	Tasks         []domain.Task `json:"tasks" db:"tasks"`
-}
+	GroupToUpdate struct {
+		Name          string        `json:"name"`
+		LevelProgress []string      `json:"levelProgress"`
+		Users         []domain.User `json:"users"`
+		Tasks         []domain.Task `json:"tasks"`
+	}
 
-type GroupToDelete struct {
-	Id uuid.UUID `json:"id" db:"id"`
-}
+	GroupToDelete struct {
+		Id uuid.UUID `json:"id"`
+	}
+
+	GroupToGet struct {
+		domain.Group
+	}
+)

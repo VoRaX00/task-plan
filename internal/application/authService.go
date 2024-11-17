@@ -33,17 +33,17 @@ func NewAuthService(repo IAuthRepository) *AuthService {
 	}
 }
 
-func (s *AuthService) Create(userToAdd requestModels.UserToAdd) (uuid.UUID, error) {
-	user := s.mapper.UserAddToUser(userToAdd)
+func (s *AuthService) Create(userToAdd requestModels.UserRegister) (uuid.UUID, error) {
+	user := s.mapper.UserRegisterToUser(userToAdd)
 	return s.repo.Create(user)
 }
 
-func (s *AuthService) GetById(id uuid.UUID) (requestModels.UserToAdd, error) {
+func (s *AuthService) GetById(id uuid.UUID) (requestModels.UserToGet, error) {
 	user, err := s.repo.GetById(id)
 	if err != nil {
-		return requestModels.UserToAdd{}, err
+		return requestModels.UserToGet{}, err
 	}
-	req := s.mapper.UserToUserAdd(user)
+	req := s.mapper.UserToUserGet(user)
 	return req, nil
 }
 
