@@ -25,6 +25,11 @@ func (r *AuthRepository) Create(user domain.User) (uuid.UUID, error) {
 	return user.ID, nil
 }
 
+func (r *AuthRepository) CreateToken(token domain.Token) error {
+	tx := r.db.Create(&token)
+	return tx.Error
+}
+
 func (r *AuthRepository) GetByEmail(email string) (domain.User, error) {
 	var user domain.User
 	tx := r.db.First(&user, "email = ?", email)

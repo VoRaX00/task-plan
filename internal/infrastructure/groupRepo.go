@@ -9,7 +9,7 @@ type GroupRepo struct {
 	db *gorm.DB
 }
 
-func NewGroupRepo(db *gorm.DB) *GroupRepo {
+func NewGroupRepository(db *gorm.DB) *GroupRepo {
 	return &GroupRepo{
 		db: db,
 	}

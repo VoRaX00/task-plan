@@ -7,10 +7,14 @@ import (
 
 type Repository struct {
 	application.IAuthRepository
+	application.ITaskRepository
+	application.IGroupRepository
 }
 
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
-		IAuthRepository: NewAuthRepository(db),
+		IAuthRepository:  NewAuthRepository(db),
+		ITaskRepository:  NewTaskRepository(db),
+		IGroupRepository: NewGroupRepository(db),
 	}
 }

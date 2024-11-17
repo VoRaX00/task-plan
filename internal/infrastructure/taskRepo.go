@@ -9,18 +9,18 @@ type TaskRepo struct {
 	db *gorm.DB
 }
 
-func NewTaskRepo(db *gorm.DB) *TaskRepo {
+func NewTaskRepository(db *gorm.DB) *TaskRepo {
 	return &TaskRepo{
 		db: db,
 	}
 }
 
-func (r *TaskRepo) Create(task domain.Task) error {
+func (r *TaskRepo) Create(task domain.Task) (int, error) {
 	tx := r.db.Create(&task)
 	if tx.Error != nil {
-		return tx.Error
+		return 0, tx.Error
 	}
-	return nil
+	return 1, nil
 }
 
 func (r *TaskRepo) GetById(id int) (domain.Task, error) {

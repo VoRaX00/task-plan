@@ -17,8 +17,10 @@ type (
 	}
 
 	IGroupRepository interface {
+		IBaseRepository[domain.Group, int]
 	}
 
 	ITaskRepository interface {
+		IBaseRepository[domain.Task, int]
 	}
 )

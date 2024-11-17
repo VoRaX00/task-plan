@@ -3,10 +3,10 @@ package application
 import "task-plan/internal/application/requestModels"
 
 type TaskService struct {
-	repo *ITaskRepository
+	repo ITaskRepository
 }
 
-func NewTaskService(repo *ITaskRepository) *TaskService {
+func NewTaskService(repo ITaskRepository) *TaskService {
 	return &TaskService{repo: repo}
 }
 

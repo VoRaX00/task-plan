@@ -3,10 +3,10 @@ package application
 import "task-plan/internal/application/requestModels"
 
 type GroupService struct {
-	repo *ITaskService
+	repo IGroupRepository
 }
 
-func NewGroupService(repo *ITaskService) *GroupService {
+func NewGroupService(repo IGroupRepository) *GroupService {
 	return &GroupService{repo: repo}
 }
 
