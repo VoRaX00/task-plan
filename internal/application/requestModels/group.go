@@ -1,15 +1,14 @@
 package requestModels
 
 import (
-	"github.com/google/uuid"
 	"task-plan/internal/domain"
 )
 
 type (
 	GroupToAdd struct {
-		Name          string    `json:"name"`
-		AdminUserId   uuid.UUID `json:"adminUserId"`
-		LevelProgress []string  `json:"levelProgress"`
+		Name          string      `json:"name"`
+		AdminUser     domain.User `json:"adminUser" gorm:"forgeinkey:UserID"`
+		LevelProgress []string    `json:"levelProgress"`
 	}
 
 	GroupToUpdate struct {
@@ -20,7 +19,7 @@ type (
 	}
 
 	GroupToDelete struct {
-		Id uuid.UUID `json:"id"`
+		Id int `json:"id"`
 	}
 
 	GroupToGet struct {

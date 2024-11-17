@@ -21,11 +21,11 @@ type IMessageEmailService interface {
 }
 
 type ITaskService interface {
-	Create(requestModels.TaskToAdd) (int, error)
-	GetById(id int) (requestModels.TaskToGet, error)
+	Create(task domain.Task) (int, error)
+	GetById(id int) (domain.Task, error)
 }
 
 type IGroupService interface {
 	Create(add requestModels.GroupToAdd) (int, error)
-	GetById(id int) (requestModels.GroupToGet, error)
+	GetById(id int) (domain.Group, error)
 }
