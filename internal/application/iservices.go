@@ -4,7 +4,6 @@ import (
 	"github.com/google/uuid"
 	"task-plan/internal/application/requestModels"
 	"task-plan/internal/domain"
-	"task-plan/pkg/tokenManager"
 )
 
 type IBaseServices[T any, U any] interface {
@@ -14,8 +13,8 @@ type IBaseServices[T any, U any] interface {
 
 type IAuthService interface {
 	IBaseServices[requestModels.UserToAdd, uuid.UUID]
-	GenerateTokens(user requestModels.UserLogin) (map[string]string, error)
-	GenerateEmailConfirmationToken(id string, manager *tokenManager.Manager) (string, error)
+	GenerateTokens(ip string) (map[string]string, error)
+	GenerateEmailConfirmationToken(id string) (string, error)
 	CheckUser(user requestModels.UserLogin) error
 	ParseToken(token string) (*domain.User, error)
 }

@@ -31,7 +31,7 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
-	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String(), h.manager)
+	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String())
 	if err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -74,7 +74,8 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	tokens, err := h.services.GenerateTokens(input)
+	ip := c.ClientIP()
+	tokens, err := h.services.GenerateTokens(ip)
 	if err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -82,7 +83,6 @@ func (h *Handler) signIn(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"access":  tokens["access"],
-		"refresh": tokens["refresh"],
+		"tokens": tokens,
 	})
 }

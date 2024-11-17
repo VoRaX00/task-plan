@@ -13,14 +13,23 @@ import (
 	"time"
 )
 
+const (
+	accessTokenTTL  = time.Hour * 24
+	refreshTokenTTL = time.Hour * 48
+)
+
 type AuthService struct {
-	mapper mapper.Mapper
-	repo   IAuthRepository
+	repo    IAuthRepository
+	mapper  *mapper.Mapper
+	manager *tokenManager.Manager
 }
 
 func NewAuthService(repo IAuthRepository) *AuthService {
+	signingKey := os.Getenv("SIGNING_KEY")
 	return &AuthService{
-		repo: repo,
+		repo:    repo,
+		mapper:  mapper.NewMapper(),
+		manager: tokenManager.NewManager(signingKey),
 	}
 }
 
@@ -50,17 +59,24 @@ func (s *AuthService) CheckUser(user requestModels.UserLogin) error {
 	return errors.New("wrong password")
 }
 
-func (s *AuthService) GenerateTokens(user requestModels.UserLogin) (map[string]string, error) {
-	return nil, nil
+func (s *AuthService) GenerateTokens(ip string) (map[string]string, error) {
+	tokens := map[string]string{}
+	access, err := s.manager.NewAccessToken(ip, accessTokenTTL)
+	if err != nil {
+		return nil, err
+	}
+
+	refresh, err := s.manager.NewRefreshToken()
+	if err != nil {
+		return nil, err
+	}
+	tokens["accessToken"] = access
+	tokens["refreshToken"] = refresh
+	return tokens, nil
 }
 
-const (
-	accessTokenTTL  = time.Hour * 24
-	refreshTokenTTL = time.Hour * 48
-)
-
-func (s *AuthService) GenerateEmailConfirmationToken(id string, manager *tokenManager.Manager) (string, error) {
-	res, err := manager.GenerateEmailConfirmationToken(id)
+func (s *AuthService) GenerateEmailConfirmationToken(id string) (string, error) {
+	res, err := s.manager.GenerateEmailConfirmationToken(id)
 	return res, err
 }
 
