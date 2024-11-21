@@ -17,7 +17,7 @@ import (
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
-	var input requestModels.UserToAdd
+	var input requestModels.UserRegister
 	if err := c.ShouldBindJSON(&input); err != nil {
 		logrus.Error(err)
 		NewErrorResponse(c, http.StatusBadRequest, err.Error())

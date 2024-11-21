@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"task-plan/internal/application"
+	"task-plan/internal/di"
 	"task-plan/internal/handler"
 	"task-plan/internal/infrastructure"
 )
@@ -41,13 +41,9 @@ func main() {
 		logrus.Fatalf("Error initializing db: %v", err)
 	}
 
-	//defer func() {
-	//	_ = db.
-	//}()
-
 	signingKey := os.Getenv("SIGNING_KEY")
 	repos := infrastructure.NewRepository(db)
-	services := application.NewService(repos)
+	services := di.NewService(repos)
 	handlers := handler.NewHandler(services, signingKey)
 
 	server := new(Server)
