@@ -11,5 +11,5 @@ type User struct {
 	Name         string    `json:"name" gorm:"type:varchar(50)"`
 	Email        string    `json:"email" gorm:"type:text;unique"`
 	PasswordHash string    `json:"password" gorm:"type:text"`
-	Groups       []Group   `json:"groups" gorm:"foreignkey:UserID"`
+	Groups       []Group   `json:"groups" gorm:"many2many:user_groups;"`
 }

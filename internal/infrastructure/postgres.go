@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"task-plan/internal/domain"
 )
 
 const (
@@ -29,5 +30,7 @@ func NewPostgresDB(cfg Config) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	return db, nil
+
+	err = db.AutoMigrate(&domain.Task{}, &domain.User{}, &domain.Group{}, &domain.Token{})
+	return db, err
 }

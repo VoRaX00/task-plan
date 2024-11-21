@@ -31,19 +31,19 @@ func (h *Handler) signUp(c *gin.Context) {
 		return
 	}
 
-	emailToken, err := h.services.GenerateEmailConfirmationToken(id.String())
-	if err != nil {
-		logrus.Error(err)
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	err = h.services.IMessageEmailService.SendConfirmEmail(input.Email, emailToken)
-	if err != nil {
-		logrus.Error(err)
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
+	//emailToken, err := h.services.GenerateEmailConfirmationToken(id.String())
+	//if err != nil {
+	//	logrus.Error(err)
+	//	NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+	//	return
+	//}
+	//
+	//err = h.services.IMessageEmailService.SendConfirmEmail(input.Email, emailToken)
+	//if err != nil {
+	//	logrus.Error(err)
+	//	NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+	//	return
+	//}
 
 	c.JSON(http.StatusOK, gin.H{
 		"id": id,

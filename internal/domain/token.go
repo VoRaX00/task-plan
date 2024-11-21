@@ -1,11 +1,16 @@
 package domain
 
-import "time"
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"time"
+)
 
 type Token struct {
+	gorm.Model
 	RefreshTokenHash string
 	Ip               string
-	UserToken        User `gorm:"foreignkey:UserID"`
+	UserID           uuid.UUID `gorm:"foreignKey:ID"`
 	CreatedAt        time.Time
 	ExpiresAt        time.Time
 }

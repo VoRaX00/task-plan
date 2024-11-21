@@ -6,16 +6,16 @@ import (
 
 type (
 	GroupToAdd struct {
-		Name          string      `json:"name"`
-		AdminUser     domain.User `json:"adminUser" gorm:"forgeinkey:UserID"`
-		LevelProgress []string    `json:"levelProgress"`
+		Name          string                 `json:"name"`
+		AdminUser     domain.User            `json:"adminUser" gorm:"forgeinkey:UserID"`
+		LevelProgress []domain.LevelProgress `json:"levelProgress"`
 	}
 
 	GroupToUpdate struct {
-		Name          string        `json:"name"`
-		LevelProgress []string      `json:"levelProgress"`
-		Users         []domain.User `json:"users"`
-		Tasks         []domain.Task `json:"tasks"`
+		Name          string                 `json:"name"`
+		LevelProgress []domain.LevelProgress `json:"levelProgress"`
+		Users         []domain.User          `json:"users"`
+		Tasks         []domain.Task          `json:"tasks"`
 	}
 
 	GroupToDelete struct {
