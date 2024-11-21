@@ -54,6 +54,5 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			group.POST("/add", h.createGroup)
 		}
 	}
-
 	return router
 }

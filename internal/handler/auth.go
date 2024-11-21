@@ -13,7 +13,7 @@ import (
 // @ID create-account
 // @Accept json
 // @Produce json
-// @Param input body domain.User true "account info"
+// @Param input body requestModels.UserRegister true "account info"
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
@@ -56,7 +56,7 @@ func (h *Handler) signUp(c *gin.Context) {
 // @ID login-account
 // @Accept json
 // @Produce json
-// @Param input body domain.User true "account info"
+// @Param input body requestModels.UserLogin true "account info"
 // @Success 200 {integer} integer 1
 // @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {

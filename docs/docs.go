@@ -36,7 +36,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.User"
+                            "$ref": "#/definitions/requestModels.UserLogin"
                         }
                     }
                 ],
@@ -71,7 +71,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.User"
+                            "$ref": "#/definitions/requestModels.UserRegister"
                         }
                     }
                 ],
@@ -87,65 +87,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "domain.Group": {
-            "type": "object",
-            "properties": {
-                "levelProgress": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.LevelProgress"
-                    }
-                },
-                "name": {
-                    "type": "string"
-                },
-                "tasks": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.Task"
-                    }
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.User"
-                    }
-                }
-            }
-        },
-        "domain.LevelProgress": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.Task": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "level": {
-                    "$ref": "#/definitions/domain.LevelProgress"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.User": {
+        "requestModels.UserLogin": {
             "type": "object",
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "groups": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/domain.Group"
-                    }
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestModels.UserRegister": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
